@@ -34,22 +34,38 @@ const customersSchema = new Schema({
     ]
 })
 
+customersSchema.post("findOneAndDelete", async (customer)=>{
+    if(customer.order.length){
+        let result = await Products.deleteMany({ _id: {$in: customer.order }});
+        console.log("called");
+        console.log(result);
+    }
+})
+
 const customers = mongoose.model("customers", customersSchema);
 
-const addCustomer = async()=>{
-    let user1 = new customers({
-        name: "Saym Islam Jihad",
-    })
-    let order1 = await Products.findOne({item: "Mango"});
-    let order2 = await Products.findOne({item: "mix fruits"});
-    user1.order.push(order1);
-    user1.order.push(order2);
+// const addCustomer = async()=>{
+//     let user1 = new customers({
+//         name: "Saym Islam Jihad",
+//     })
+//     let order1 = await Products.findOne({item: "Mango"});
+//     let order2 = await Products.findOne({item: "mix fruits"});
+//     user1.order.push(order1);
+//     user1.order.push(order2);
 
-    let result = await user1.save();
-    console.log(result);
+//     let result = await user1.save();
+//     console.log(result);
+// }
+
+// addCustomer();
+
+
+const delCust = async()=>{
+    let data = await customers.findByIdAndDelete("67811b97a9e9dfae7999fed1");
+    console.log(data);
 }
 
-addCustomer();
+delCust();
 
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/onetomany');
