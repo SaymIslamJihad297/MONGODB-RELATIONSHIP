@@ -52,5 +52,5 @@ const addCustomer = async()=>{
 addCustomer();
 
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/onetomany');
+    await mongoose.connect('mongodb://127.0.0.1:27017/practice');
 }
